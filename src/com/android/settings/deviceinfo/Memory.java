@@ -32,13 +32,16 @@ import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
+import android.os.SystemProperties;
 import android.os.UserManager;
 import android.os.storage.IMountService;
 import android.os.storage.StorageEventListener;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
@@ -80,6 +83,9 @@ public class Memory extends SettingsPreferenceFragment {
     private UsbManager mUsbManager;
 
     private ArrayList<StorageVolumePreferenceCategory> mCategories = Lists.newArrayList();
+    private static final String KEY_SWITCH_STORAGE = "key_switch_storage";
+    private static final String EMU_SWITCH_PERSIST_PROP = "persist.sys.env_use_sec_storage";
+    private CheckBoxPreference mSwitchStoragePref;
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -93,6 +99,10 @@ public class Memory extends SettingsPreferenceFragment {
         mStorageManager.registerListener(mStorageListener);
 
         addPreferencesFromResource(R.xml.device_info_memory);
+
+        String emuSwitch = SystemProperties.get(EMU_SWITCH_PERSIST_PROP, "0");
+        mSwitchStoragePref = (CheckBoxPreference) findPreference(KEY_SWITCH_STORAGE);
+        mSwitchStoragePref.setChecked("1".equals(emuSwitch));
 
         addCategory(StorageVolumePreferenceCategory.buildForInternal(context));
 
@@ -214,7 +224,13 @@ public class Memory extends SettingsPreferenceFragment {
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        if (StorageVolumePreferenceCategory.KEY_CACHE.equals(preference.getKey())) {
+        if(preference == mSwitchStoragePref) {
+            Log.d(TAG,"Setting persist.sys.env_use_sec_storage to "+(
+                    mSwitchStoragePref.isChecked() ? "1" : "0"));
+            SystemProperties.set(EMU_SWITCH_PERSIST_PROP,
+                    mSwitchStoragePref.isChecked() ? "1" : "0");
+            showRebootPrompt();
+        } else if (StorageVolumePreferenceCategory.KEY_CACHE.equals(preference.getKey())) {
             ConfirmClearCacheFragment.show(this);
             return true;
         }
@@ -423,5 +439,22 @@ public class Memory extends SettingsPreferenceFragment {
 
             return builder.create();
         }
+    }
+
+    private void showRebootPrompt() {
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.reboot_prompt_title)
+                .setMessage(R.string.reboot_prompt_message)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                        pm.reboot(null);
+                    }
+                })
+                .setNegativeButton(R.string.no, null)
+                .create();
+
+        dialog.show();
     }
 }

@@ -797,4 +797,10 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
     <!--  development shortcut -->
     <string name="development_shortcut_title">Development shortcut</string>
     <string name="development_shortcut_summary">Enable \'wipe data\' and \'force close\' options in notification area and recent apps list</string>
+
+    <string name="storage_switch_title">Use external storage as primary</string>
+    <string name="storage_switch_summary_off">Using expanded internal storage for apps and media</string>
+    <string name="storage_switch_summary_on">Using SD Card for apps and media</string>
+    <string name="reboot_prompt_title">Reboot required</string>
+    <string name="reboot_prompt_message">In order to apply the changed configuration, a reboot is required.\n\nDo you want to reboot now?</string>
 </resources>
