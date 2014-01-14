@@ -16,6 +16,7 @@
 
 package com.android.settings.deviceinfo;
 
+import android.app.ActionBar;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -42,6 +43,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.view.MenuItem;
 
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneConstants;
@@ -49,6 +51,8 @@ import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.PhoneStateIntentReceiver;
 import com.android.settings.R;
 import com.android.settings.Utils;
+
+import org.cyanogenmod.hardware.SerialNumber;
 
 import java.lang.ref.WeakReference;
 
@@ -211,6 +215,11 @@ public class Status extends PreferenceActivity {
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
+        ActionBar mActionBar = getActionBar();
+        if (mActionBar != null) {
+            mActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         mHandler = new MyHandler(this);
 
         mTelephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
@@ -296,12 +305,21 @@ public class Status extends PreferenceActivity {
         setBtStatus();
         setIpAddressStatus();
 
-        String serial = Build.SERIAL;
+        String serial = getSerialNumber();
         if (serial != null && !serial.equals("")) {
             setSummaryText(KEY_SERIAL_NUMBER, serial);
         } else {
             removePreferenceFromScreen(KEY_SERIAL_NUMBER);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -548,5 +566,17 @@ public class Status extends PreferenceActivity {
         int h = (int)((t / 3600));
 
         return h + ":" + pad(m) + ":" + pad(s);
+    }
+
+    private String getSerialNumber() {
+        try {
+            if (SerialNumber.isSupported()) {
+                return SerialNumber.getSerialNumber();
+            }
+        } catch (NoClassDefFoundError e) {
+            // Hardware abstraction framework not installed; fall through
+        }
+
+        return Build.SERIAL;
     }
 }

@@ -14,7 +14,36 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Wi-Fi settings. Presented as a list dialog to the user to choose the Wi-Fi region code. -->
+    <string-array name="wifi_countrycode_entries">
+        <item>United States</item>
+        <item>Canada, Taiwan</item>
+        <item>Germany</item>
+        <item>Europe</item>
+        <item>Japan, Russia</item>
+        <item>Australia</item>
+        <item>China</item>
+        <item>Korea</item>
+        <item>Turkey</item>
+        <item>Singapore</item>
+        <item>Brazil</item>
+    </string-array>
+
+    <string-array name="wifi_countrycode_values" translatable="false">
+        <item>US</item>
+        <item>CA</item>
+        <item>DE</item>
+        <item>GB</item>
+        <item>JP</item>
+        <item>AU</item>
+        <item>CN</item>
+        <item>KR</item>
+        <item>TR</item>
+        <item>SG</item>
+        <item>BR</item>
+    </string-array>
+
     <!-- Ascending ringtone increase intervals -->
     <string-array name="increasing_ring_interval_entries" translatable="false">
         <item>@string/increasing_ring_interval_eachring</item>
@@ -48,6 +77,32 @@
         <item>normal</item>
         <item>vibrate</item>
         <item>mute</item>
+    </string-array>
+
+    <string-array name="lockscreen_delay_entries" translatable="false">
+        <item>@string/slide_lock_delay_none</item>
+        <item>@string/slide_lock_delay_1s</item>
+        <item>@string/slide_lock_delay_5s</item>
+        <item>@string/slide_lock_delay_10s</item>
+        <item>@string/slide_lock_delay_15s</item>
+        <item>@string/slide_lock_delay_30s</item>
+        <item>@string/slide_lock_delay_1m</item>
+        <item>@string/slide_lock_delay_5m</item>
+        <item>@string/slide_lock_delay_10m</item>
+        <item>@string/slide_lock_delay_30m</item>
+    </string-array>
+
+    <string-array name="lockscreen_delay_values" translatable="false">
+        <item>0</item>
+        <item>1000</item>
+        <item>5000</item>
+        <item>10000</item>
+        <item>15000</item>
+        <item>30000</item>
+        <item>60000</item>
+        <item>300000</item>
+        <item>600000</item>
+        <item>1800000</item>
     </string-array>
 
     <string-array name="lockscreen_icon_picker_labels" translatable="false">
@@ -169,6 +224,36 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+    </string-array>
+
+    <!-- Volume Overlay options. -->
+    <string-array name="volume_overlay_entries" translatable="false">
+        <item>@string/volume_overlay_single</item>
+        <item>@string/volume_overlay_expandable</item>
+        <item>@string/volume_overlay_expanded</item>
+        <item>@string/volume_overlay_none</item>
+    </string-array>
+
+    <!-- Values for Volume Overlay. Do not translate. -->
+    <string-array name="volume_overlay_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <!-- Ring mode options. -->
+    <string-array name="ring_mode_entries" translatable="false">
+        <item>@string/ring_mode_normal</item>
+        <item>@string/ring_mode_vibrate</item>
+        <item>@string/ring_mode_mute</item>
+    </string-array>
+
+    <!-- Values for Ring mode. Do not translate. -->
+    <string-array name="ring_mode_values" translatable="false">
+        <item>normal</item>
+        <item>vibrate</item>
+        <item>mute</item>
     </string-array>
 
     <!-- Values for the notification light pulse spinners -->
@@ -331,21 +416,6 @@
         <item>3</item>
     </string-array>
 
-    <!-- Performance settings -->
-    <string-array name="pref_zram_size_entries">
-        <item>Disabled</item>
-        <item>10%</item>
-        <item>18% (default)</item>
-        <item>26%</item>
-    </string-array>
-
-    <string-array name="pref_zram_size_values" translatable="false">
-        <item>0</item>
-        <item>10</item>
-        <item>18</item>
-        <item>26</item>
-    </string-array>
-
     <!--- Sms security limit -->
     <string-array name="sms_security_check_limit_entries" translatable="false">
         <item>@string/sms_security_check_limit_default</item>
@@ -380,6 +450,19 @@
         <item>5</item>
     </string-array>
 
+    <!-- Volume key cursor control -->
+    <string-array name="volbtn_cursor_control_entries" translatable="false">
+        <item>@string/volbtn_cursor_control_off</item>
+        <item>@string/volbtn_cursor_control_on</item>
+        <item>@string/volbtn_cursor_control_on_reverse</item>
+    </string-array>
+
+    <string-array name="volbtn_cursor_control_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <!-- Expanded desktop -->
     <string-array name="expanded_desktop_entries" translatable="false">
         <item>@string/expanded_desktop_disabled</item>
@@ -394,16 +477,49 @@
     </string-array>
 
     <string-array name="entries_status_bar_battery" translatable="false">
-        <item>@string/status_bar_style_icon</item>
-        <item>@string/status_bar_battery_status_circle</item>
-        <item>@string/status_bar_battery_status_circle_percentage</item>
+        <item>@string/status_bar_style_icon_portrait</item>
+        <item>@string/status_bar_style_icon_landscape</item>
+        <item>@string/status_bar_style_circle</item>
+        <item>@string/status_bar_style_text</item>
         <item>@string/status_bar_style_hidden</item>
     </string-array>
 
     <string-array name="values_status_bar_battery" translatable="false">
         <item>0</item>
+        <item>5</item>
         <item>2</item>
-        <item>3</item>
+        <item>6</item>
         <item>4</item>
+    </string-array>
+
+    <string-array name="entries_status_bar_signal" translatable="false">
+        <item>@string/status_bar_signal_style_icon</item>
+        <item>@string/status_bar_signal_style_text</item>
+        <item>@string/status_bar_style_hidden</item>
+    </string-array>
+
+    <string-array name="values_status_bar_signal" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <!-- Stylus Gestures -->
+    <string-array name="gestures_entries" translatable="false">
+        <item>@string/gestures_action_empty</item>
+        <item>@string/gestures_action_home</item>
+        <item>@string/gestures_action_back</item>
+        <item>@string/gestures_action_menu</item>
+        <item>@string/gestures_action_search</item>
+        <item>@string/gestures_action_recent</item>
+    </string-array>
+
+    <string-array name="gestures_values" translatable="false">
+        <item>1000</item>
+        <item>1001</item>
+        <item>1002</item>
+        <item>1003</item>
+        <item>1004</item>
+        <item>1005</item>
     </string-array>
 </resources>
