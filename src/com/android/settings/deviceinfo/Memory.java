@@ -84,7 +84,7 @@ public class Memory extends SettingsPreferenceFragment {
 
     private ArrayList<StorageVolumePreferenceCategory> mCategories = Lists.newArrayList();
     private static final String KEY_SWITCH_STORAGE = "key_switch_storage";
-    private static final String EMU_SWITCH_PERSIST_PROP = "persist.sys.env_use_sec_storage";
+    private static final String PROP_SWITCH_STORAGE = "persist.sys.env.switch_storage";
     private CheckBoxPreference mSwitchStoragePref;
 
     @Override
@@ -100,9 +100,9 @@ public class Memory extends SettingsPreferenceFragment {
 
         addPreferencesFromResource(R.xml.device_info_memory);
 
-        String emuSwitch = SystemProperties.get(EMU_SWITCH_PERSIST_PROP, "0");
+        String storageSwitch = SystemProperties.get(PROP_SWITCH_STORAGE, "0");
         mSwitchStoragePref = (CheckBoxPreference) findPreference(KEY_SWITCH_STORAGE);
-        mSwitchStoragePref.setChecked("1".equals(emuSwitch));
+        mSwitchStoragePref.setChecked("1".equals(storageSwitch));
 
         addCategory(StorageVolumePreferenceCategory.buildForInternal(context));
 
@@ -225,9 +225,9 @@ public class Memory extends SettingsPreferenceFragment {
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if(preference == mSwitchStoragePref) {
-            Log.d(TAG,"Setting persist.sys.env_use_sec_storage to "+(
+            Log.d(TAG,"Setting " + PROP_SWITCH_STORAGE + (
                     mSwitchStoragePref.isChecked() ? "1" : "0"));
-            SystemProperties.set(EMU_SWITCH_PERSIST_PROP,
+            SystemProperties.set(PROP_SWITCH_STORAGE,
                     mSwitchStoragePref.isChecked() ? "1" : "0");
             showRebootPrompt();
         } else if (StorageVolumePreferenceCategory.KEY_CACHE.equals(preference.getKey())) {
